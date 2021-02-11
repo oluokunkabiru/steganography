@@ -14,12 +14,6 @@
         <a class="nav-link text-dark" href="index.php">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-dark" href="encode.php">Encode Message</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-dark" href="decode.php">Decode Message</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link text-dark" href="about.php">About</a>
       </li>
     </ul>

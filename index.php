@@ -1,7 +1,7 @@
 <?php
 include('includes/functions.php');
 
-$mError = $fileError ="";
+$mError = $fileError =$success = "";
 $target_dir = "original/";
 $encrypt = "encrypt/";
 if(isset($_POST['generate'])){
@@ -9,8 +9,9 @@ if(isset($_POST['generate'])){
         $mError = "Please provide message to encryt";
     }else{
         $message = $_POST['message'];
+        // echo convertMeToBinary($message);
     }
-echo convertMeToBinary($message);
+// echo convertMeToBinary($message);
     if($_FILES['image']['size']!=0){
        
         if(!is_dir($target_dir)){
@@ -25,7 +26,7 @@ echo convertMeToBinary($message);
         if($check !== true) {
             $fileError= "Image file is expected";
         }
-        
+        $filename = basename($_FILES["image"]["name"]);
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         // $target_file = "vboy".time();
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -43,7 +44,7 @@ echo convertMeToBinary($message);
             move_uploaded_file($_FILES["image"]["tmp_name"], $image);
             $split = explode('/', $image);
             $images = $split[1];
-            echo "Uploaded";
+            // echo "Uploaded";
            $msg = $message; 
 
             $src = $image; 
@@ -55,7 +56,11 @@ echo convertMeToBinary($message);
             //Convert our message to binary
             $msgLength = strlen($msgBin); 
             //Get message length
+            if($imageFileType=='jpg' || $imageFileType=='jpeg'){
             $img = imagecreatefromjpeg($src); 
+            }else{
+              $img = imagecreatefrompng($src);
+            }
             //returns an image identifier
             list($width, $height, $type, $attr) = getimagesize($src); 
             //get image size
@@ -117,7 +122,8 @@ echo convertMeToBinary($message);
             //Random digit for our filename
             imagepng($img, $encrypt.$images); 
             //Create image
-            echo('Create: ' .$encrypt.$images ); 
+           $success =  $filename.' have successfully encrypted to ' .$encrypt.$images .'.'; 
+           header('location:'. $_SERVER['PHP_SELF'].'?success='.$success);
             //Echo our image file name
             
             imagedestroy($img); //get rid of it
@@ -151,11 +157,18 @@ echo convertMeToBinary($message);
 <div class="jumbotron jumbotron-fluid">
   <div class="container bg-white">
     <h1 class="text-center font-weight-bold">Encode Message</h1>
+    <?php if(isset($_GET['success'])){ ?>
+
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+       <h4><strong>Success!</strong> <?= $_GET['success'] ?></h4>
+      </div>
+      <?php } ?>
     <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
 
-    <form action="encode.php" method="POST" enctype="multipart/form-data">
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="email">Encode Message:</label>
             <input type="text" class="form-control" id="pwd" name="message">
@@ -188,7 +201,7 @@ echo convertMeToBinary($message);
         <div class="row">
         <div class="col">
           <div class="card card-body" >
-        <a href="<?= $target_dir.$file ?>">
+          <a href="#view_encrypt"  data-toggle="modal" myencrypt="<?= $target_dir.$file ?>">
           <img src="<?= $target_dir.$file ?>" class="card-img"  style="height: 150px;" alt="">
           <div class="card-footer bg-dark">
             <h5 class="text-white">Original</h5>

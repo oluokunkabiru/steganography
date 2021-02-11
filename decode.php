@@ -3,7 +3,49 @@
 include('includes/functions.php');
 if(isset($_POST['encryptme'])){
 $src =$_POST['encryptme'] ;
+$check = explode('/', $src);
+// echo "Cheeck = ". $src;
+if($check[0] =='original'){
+  echo ' 
+    
+  <!-- Modal Header -->
+  <div class="modal-header">
+    <h4 class="modal-title">Decode '.$src.' message</h4>
+    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+  </div>
 
+  <!-- Modal body -->
+  <div class="modal-body">
+    
+    <div class="card">
+      <div class="row">
+    <div class="col-md-6 col-sm-6 col-6">
+      <a href="'.$src.'" target="_blank">
+    <div class="card">
+      <img src="'.$src.'" class="card-img" style="height: 200px;" alt="">
+    </div>
+  </a>
+    </div>
+
+    <div class="col-md-6 col-sm-6 col-6">
+    <!-- <div class="card"> -->
+        <h2 class="text-danger p-2"> No message encrypt in this image</h2>
+    <!-- </div> -->
+    </div>
+
+    </div>
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+  </div>
+
+';
+  // Show
+
+}else{
 $img = imagecreatefrompng($src); 
 //Returns image identifier
 $real_message = ''; 
@@ -73,9 +115,12 @@ for ($x = 0; $x < ($width*$height); $x++) {
             <div class="card">
               <div class="row">
             <div class="col-md-6 col-sm-6 col-6">
+              <a href="'.$src.'" target="_blank">
+
             <div class="card">
               <img src="'.$src.'" class="card-img" style="height: 200px;" alt="">
             </div>
+            </a>
             </div>
     
             <div class="col-md-6 col-sm-6 col-6">
@@ -105,6 +150,7 @@ for ($x = 0; $x < ($width*$height); $x++) {
   //Change x coordinates to next
 }
 // echo "Message =  $real_message";
+}
 }
 ?>
 
