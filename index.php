@@ -11,7 +11,8 @@ if(isset($_POST['generate'])){
         $message = $_POST['message'];
         // echo convertMeToBinary($message);
     }
-// echo convertMeToBinary($message);
+    // echo convertMeToBinary($message)."<br>";
+    // echo "Lenghtt = ". strlen(convertMeToBinary($message));
     if($_FILES['image']['size']!=0){
        
         if(!is_dir($target_dir)){
@@ -199,7 +200,7 @@ if(isset($_POST['generate'])){
     <div class="col-md-4">
       <div class="card">
         <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-6 col-lg-6 col-6">
           <div class="card card-body" >
           <a href="#view_encrypt"  data-toggle="modal" myencrypt="<?= $target_dir.$file ?>">
           <img src="<?= $target_dir.$file ?>" class="card-img"  style="height: 150px;" alt="">
@@ -209,7 +210,7 @@ if(isset($_POST['generate'])){
         </a>
       </div>
         </div>
-        <div class="col">
+        <div class="col-md-6 col-sm-6 col-lg-6 col-6">
           <div class="card card-body">
         <a href="#view_encrypt"  data-toggle="modal" myencrypt="<?= $encrypt.$file ?>">
           <img src="<?= $encrypt.$file ?>" class="card-img" style="height: 150px;" alt="">
